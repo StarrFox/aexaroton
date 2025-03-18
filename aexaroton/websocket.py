@@ -67,7 +67,10 @@ class WebSocket:
     async def register_listener(self, message_type: MessageType, callback: Callable[[SocketMessage], Awaitable[None]]):
         self._event_listeners[message_type].append(callback)
 
-    async def register_console_listener(self, console_listener: type[ConsoleListener]):
+    async def register_console_listener(self, console_listener: type[ConsoleListener], *, tail_lines: int = 0):
+        if not 0 <= tail_lines <= 500:
+            raise ValueError(f"tail_lines must be between 0 and 500 (inclusive) not {tail_lines}")
+
         if self._console_listener is not None:
             raise ValueError("Must unregister previous console listener before registering a new one")
 
@@ -77,7 +80,10 @@ class WebSocket:
         await self._send(
             {
                 "stream": "console",
-                "type": "start"
+                "type": "start",
+                "data": {
+                    "tail": tail_lines
+                }
             }
         )
 

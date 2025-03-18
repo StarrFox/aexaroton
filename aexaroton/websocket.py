@@ -158,7 +158,14 @@ class WebSocket:
                     case _:
                         raise NotImplementedError(f"Stream type {stream_type} not implemented")
 
-        message_type = MessageType[message["type"]]
+                return
+
+        message_type_name = message["type"].replace("-", "_")
+
+        try:
+            message_type = MessageType[message_type_name]
+        except KeyError:
+            raise RuntimeError(f"Unexpected message type {message_type_name}")
 
         match message_type:
             case MessageType.ready:

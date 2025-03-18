@@ -1,16 +1,16 @@
-from enum import IntEnum, auto
+from enum import IntEnum, auto, Enum
 
 from pydantic import BaseModel
 
 from aexaroton.types import ServerData
 
 
-class MessageType(IntEnum):
-    ready = auto()
-    connected = auto()
-    disconnected = auto()
-    keep_alive = auto()
-    status = auto()
+class MessageType(Enum):
+    ready = "ready"
+    connected = "connected"
+    disconnected = "disconnected"
+    keep_alive = "keep-alive"
+    status = "status"
 
 
 class ConsoleStreamType(IntEnum):

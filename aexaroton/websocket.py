@@ -1,6 +1,6 @@
 import asyncio
 
-from typing import TYPE_CHECKING, Callable, Awaitable, assert_never
+from typing import TYPE_CHECKING, Callable, Awaitable, assert_never, overload, Literal
 from collections import defaultdict
 
 import aiohttp
@@ -64,6 +64,7 @@ class WebSocket:
 
         await asyncio.gather(*self._dispatch_tasks)
 
+    # TODO: how the heck do I type hint this
     async def register_listener(self, message_type: MessageType, callback: Callable[[SocketMessage], Awaitable[None]]):
         self._event_listeners[message_type].append(callback)
 

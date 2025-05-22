@@ -45,13 +45,13 @@ class Server:
             return RamData(**data["data"])
 
     async def set_ram(self, ram: int) -> RamData:
-        async with self._session.post(BASE_URL / "servers" / self.data.id / "options" / "ram", data={"ram": ram}) as response:
+        async with self._session.post(BASE_URL / "servers" / self.data.id / "options" / "ram", json={"ram": ram}) as response:
             data: dict = await response.json()
 
             return RamData(**data["data"])
 
     async def set_motd(self, motd: int) -> MotdData:
-        async with self._session.post(BASE_URL / "servers" / self.data.id / "options" / "motd", data={"motd": motd}) as response:
+        async with self._session.post(BASE_URL / "servers" / self.data.id / "options" / "motd", json={"motd": motd}) as response:
             data: dict = await response.json()
 
             return MotdData(**data["data"])
@@ -69,7 +69,7 @@ class Server:
                 return data["data"]
 
         else:
-            async with self._session.post(BASE_URL / "servers" / self.data.id / "start", data={"useOwnCredits": use_own_credits}) as response:
+            async with self._session.post(BASE_URL / "servers" / self.data.id / "start", json={"useOwnCredits": use_own_credits}) as response:
                 data: dict = await response.json()
 
                 return data["data"]
@@ -87,7 +87,7 @@ class Server:
             return data["data"]
 
     async def command(self, command: str) -> str:
-        async with self._session.post(BASE_URL / "servers" / self.data.id / "command", data={"command": command}) as response:
+        async with self._session.post(BASE_URL / "servers" / self.data.id / "command", json={"command": command}) as response:
             data: dict = await response.json()
 
             return data["data"]
@@ -106,13 +106,13 @@ class Server:
             return data["data"]
 
     async def add_to_player_list(self, list_name: str, entries: list[str]) -> list[str]:
-        async with self._session.put(BASE_URL / "servers" / self.data.id / "playerlists" / list_name, data={"entries": entries}) as response:
+        async with self._session.put(BASE_URL / "servers" / self.data.id / "playerlists" / list_name, json={"entries": entries}) as response:
             data: dict = await response.json()
 
             return data["data"]
 
     async def remove_from_player_list(self, list_name: str, entries: list[str]) -> list[str]:
-        async with self._session.delete(BASE_URL / "servers" / self.data.id / "playerlists" / list_name, data={"entries": entries}) as response:
+        async with self._session.delete(BASE_URL / "servers" / self.data.id / "playerlists" / list_name, json={"entries": entries}) as response:
             data: dict = await response.json()
 
             return data["data"]
@@ -128,7 +128,7 @@ class Server:
             return await reponse.read()
 
     async def set_file_data(self, file_path: str, file_data: bytes) -> str:
-        async with self._session.put(BASE_URL / "servers" / self.data.id / "files" / "data" / file_path, data=file_data) as reponse:
+        async with self._session.put(BASE_URL / "servers" / self.data.id / "files" / "data" / file_path, json=file_data) as reponse:
             data: dict = await reponse.json()
 
             return data["data"]
@@ -146,7 +146,7 @@ class Server:
             return [ConfigFileData(**config_data) for config_data in data["data"]]
 
     async def set_config_file(self, file_path: str, options: dict[str, str]) -> list[ConfigFileData]:
-        async with self._session.post(BASE_URL / "servers" / self.data.id / "files" / "config" / file_path, data=options) as reponse:
+        async with self._session.post(BASE_URL / "servers" / self.data.id / "files" / "config" / file_path, json=options) as reponse:
             data: dict = await reponse.json()
 
             return [ConfigFileData(**config_data) for config_data in data["data"]]

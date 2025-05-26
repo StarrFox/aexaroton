@@ -1,6 +1,13 @@
 from enum import auto, Enum, IntEnum
+from typing import TypedDict
 
 from pydantic import BaseModel
+
+
+class ExarotonResponse(TypedDict):
+    success: bool
+    error: str
+    data: dict | None
 
 
 class ServerStatus(IntEnum):

@@ -1,6 +1,6 @@
 [project]
 name = "aexaroton"
-version = "0.1.2"
+version = "0.2.0"
 description = "An async exaroton api wrapper"
 authors = [{ name = "StarrFox", email = "StarrFox6312@gmail.com" }]
 requires-python = ">=3.11"

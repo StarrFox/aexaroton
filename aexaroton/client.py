@@ -9,14 +9,20 @@ from .errors import ExarotonError
 
 
 class Client:
-    def __init__(self, token: str):
+    def __init__(self, session: aiohttp.ClientSession):
         self._closed: bool = False
 
-        self.session = aiohttp.ClientSession(
+        self.session = session
+
+    @classmethod
+    async def from_token(cls, token: str):
+        session = aiohttp.ClientSession(
             headers={
                 "Authorization": f"Bearer {token}"
             }
         )
+
+        return cls(session)
 
     async def __aenter__(self) -> Self:
         return self 
@@ -90,5 +96,3 @@ class Client:
 
             assert data["data"] is not None
             return [Server(ServerData(**server_data), self.session) for server_data in data["data"]]
-
-
